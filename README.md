@@ -5,7 +5,7 @@
 
 # Polyaxon-helper
 
-A python helper library to report metrics and communicate with Polyaxon.
+Polyaxon helper is a lightweight python library to report metrics and communicate information with Polyaxon.
 
 ## Installation
 
