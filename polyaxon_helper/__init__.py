@@ -8,17 +8,23 @@ from datetime import datetime
 
 
 def get_cluster_def():
-    cluster = os.getenv('PLX_CLUSTER', None)
+    cluster = os.getenv('POLYAXON_CLUSTER', None)
     return json.loads(cluster) if cluster else None
 
 
 def get_declarations():
-    declarations = os.getenv('PLX_DECLARATIONS', None)
+    declarations = os.getenv('POLYAXON_DECLARATIONS', None)
+    return json.loads(declarations) if declarations else None
+
+
+def get_experiment_info():
+    declarations = os.getenv('POLYAXON_INFO', None)
     return json.loads(declarations) if declarations else None
 
 
 def send_metrics(**metrics):
-    experiment_uuid = os.getenv('experiment_uuid', None)
+    experiment_info = get_experiment_info()
+    experiment_uuid = experiment_info.get('experiment_uuid', None)
     if not experiment_uuid:
         raise ValueError('`experiment_uuid` was not found.')
 
