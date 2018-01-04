@@ -1,15 +1,20 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function
+
+import json
 import os
 
 from datetime import datetime
 
 
 def get_cluster_def():
-    return os.getenv('PLX_CLUSTER', None)
+    cluster = os.getenv('PLX_CLUSTER', None)
+    return json.loads(cluster) if cluster else None
 
 
 def get_declarations():
-    declaration_keys = os.getenv('PLX_DECLARATIONS', [])
-    return {key: os.getenv(key, None) for key in declaration_keys}
+    declarations = os.getenv('PLX_DECLARATIONS', None)
+    return json.loads(declarations) if declarations else None
 
 
 def send_metrics(**metrics):
@@ -26,4 +31,3 @@ def send_metrics(**metrics):
 
     except ImportError:
         pass
-
