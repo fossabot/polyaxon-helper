@@ -28,13 +28,15 @@ from polyaxon_helper import (
     get_cluster_def,
     get_declarations,
     get_experiment_info,
-    get_outputs_path
+    get_outputs_path,
+    get_log_level
 )
 
 cluster_def = get_cluster_def()
 declarations = get_declarations()
 experiment_info = get_experiment_info()
 outputs_path = get_outputs_path()
+log_level = get_log_level()
 ```
 
 ### Reporting metrics to Polyaxon

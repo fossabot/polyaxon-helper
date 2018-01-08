@@ -12,6 +12,11 @@ def get_cluster_def():
     return json.loads(cluster) if cluster else None
 
 
+def get_log_level():
+    cluster = os.getenv('POLYAXON_LOG_LEVEL', None)
+    return json.loads(cluster) if cluster else None
+
+
 def get_outputs_path():
     return os.getenv('POLYAXON_OUTPUTS_PATH', None)
 
@@ -22,7 +27,7 @@ def get_declarations():
 
 
 def get_experiment_info():
-    declarations = os.getenv('POLYAXON_INFO', None)
+    declarations = os.getenv('POLYAXON_EXPERIMENT_INFO', None)
     return json.loads(declarations) if declarations else None
 
 
