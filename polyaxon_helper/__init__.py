@@ -12,6 +12,10 @@ def get_cluster_def():
     return json.loads(cluster) if cluster else None
 
 
+def get_outputs_path():
+    return os.getenv('POLYAXON_OUTPUTS_PATH', None)
+
+
 def get_declarations():
     declarations = os.getenv('POLYAXON_DECLARATIONS', None)
     return json.loads(declarations) if declarations else None

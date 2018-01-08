@@ -24,11 +24,17 @@ Please check [polyaxon installation guide](https://docs.polyaxon.com/installatio
 ### Getting env variables defined by Polyaxon
 
 ```python
-from polyaxon_helper import get_cluster_def, get_declarations, get_experiment_info
+from polyaxon_helper import (
+    get_cluster_def,
+    get_declarations,
+    get_experiment_info,
+    get_outputs_path
+)
 
 cluster_def = get_cluster_def()
 declarations = get_declarations()
 experiment_info = get_experiment_info()
+outputs_path = get_outputs_path()
 ```
 
 ### Reporting metrics to Polyaxon
