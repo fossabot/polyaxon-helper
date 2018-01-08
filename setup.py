@@ -40,7 +40,9 @@ setup(name='polyaxon-helper',
           'reinforcement-learning',
           'kubernetes',
       ],
-      install_requires=[],
+      install_requires=[
+          'requests==2.18.4',
+      ],
       classifiers=[
           'Programming Language :: Python',
           'Operating System :: OS Independent',

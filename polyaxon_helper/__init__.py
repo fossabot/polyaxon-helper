@@ -2,9 +2,12 @@
 from __future__ import absolute_import, division, print_function
 
 import json
+import logging
 import os
 
-from datetime import datetime
+import requests
+
+logger = logging.getLogger('polyaxon.helper')
 
 
 def get_cluster_def():
@@ -31,18 +34,30 @@ def get_experiment_info():
     return json.loads(declarations) if declarations else None
 
 
+def get_api(version='v1'):
+    api = os.getenv('POLYAXON_API', None)
+    return api + '/api/{}/'.format(version)
+
+
+def get_user_token():
+    return os.getenv('POLYAXON_USER_TOKEN', None)
+
+
 def send_metrics(**metrics):
     experiment_info = get_experiment_info()
-    experiment_uuid = experiment_info.get('experiment_uuid', None)
-    if not experiment_uuid:
-        raise ValueError('`experiment_uuid` was not found.')
+    experiment_name = experiment_info.get('experiment_name', None)
+    user_token = get_user_token()
+    api = get_api()
+    if not all([experiment_name, user_token, api]):
+        logger.info('Environment information not found, '
+                    'please make sure this is running inside a polyaxon job.')
+        return
+
+    values = experiment_name.split('.')
+    user, project, experiment = values[0], values[1], values[-1]
 
     try:
-        from experiments.tasks import set_metrics
-
-        set_metrics.delay(experiment_uuid=experiment_uuid,
-                          created_at=datetime.utcnow(),
-                          metrics=metrics)
-
-    except ImportError:
-        pass
+        requests.post('{}/{}/{}/experiments/{}/metrics'.format(api, user, project, experiment),
+                      data={'values': json.dumps(metrics)})
+    except requests.RequestException as e:
+        logger.info('could not reach polyaxon api {}'.format(e))
