@@ -2,12 +2,9 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import logging
 import os
 
 import requests
-
-logger = logging.getLogger('polyaxon.helper')
 
 
 def get_cluster_def():
@@ -36,7 +33,7 @@ def get_experiment_info():
 
 def get_api(version='v1'):
     api = os.getenv('POLYAXON_API', None)
-    return api + '/api/{}/'.format(version)
+    return '{}/api/{}'.format(api, version)
 
 
 def get_user_token():
@@ -49,8 +46,8 @@ def send_metrics(**metrics):
     user_token = get_user_token()
     api = get_api()
     if not all([experiment_name, user_token, api]):
-        logger.info('Environment information not found, '
-                    'please make sure this is running inside a polyaxon job.')
+        print('Environment information not found, '
+              'please make sure this is running inside a polyaxon job.')
         return
 
     values = experiment_name.split('.')
@@ -58,6 +55,7 @@ def send_metrics(**metrics):
 
     try:
         requests.post('{}/{}/{}/experiments/{}/metrics'.format(api, user, project, experiment),
+                      headers={"Authorization": "token {}".format(user_token)},
                       data={'values': json.dumps(metrics)})
     except requests.RequestException as e:
-        logger.info('could not reach polyaxon api {}'.format(e))
+        print('could not reach polyaxon api {}'.format(e))
