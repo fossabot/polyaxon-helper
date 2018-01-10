@@ -5,6 +5,7 @@ import json
 import os
 
 import requests
+import six
 
 
 def get_cluster_def():
@@ -54,8 +55,14 @@ def send_metrics(**metrics):
     user, project, experiment = values[0], values[1], values[-1]
 
     try:
+        formatted_metrics = {k: float(v) for k, v in six.iteritems(metrics)}
+    except (ValueError, TypeError):
+        print('could not send metrics {}'.format(metrics))
+        return
+
+    try:
         requests.post('{}/{}/{}/experiments/{}/metrics'.format(api, user, project, experiment),
                       headers={"Authorization": "token {}".format(user_token)},
-                      data={'values': json.dumps(metrics)})
+                      data={'values': json.dumps(formatted_metrics)})
     except requests.RequestException as e:
         print('could not reach polyaxon api {}'.format(e))
