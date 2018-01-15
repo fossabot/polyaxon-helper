@@ -28,6 +28,8 @@ from polyaxon_helper import (
     get_cluster_def,
     get_declarations,
     get_experiment_info,
+    get_task_info,
+    get_tf_config,
     get_outputs_path,
     get_log_level
 )
@@ -35,6 +37,8 @@ from polyaxon_helper import (
 cluster_def = get_cluster_def()
 declarations = get_declarations()
 experiment_info = get_experiment_info()
+task_info = get_task_info()
+tf_config = get_tf_config()
 outputs_path = get_outputs_path()
 log_level = get_log_level()
 ```
