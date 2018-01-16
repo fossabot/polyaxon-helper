@@ -83,8 +83,7 @@ def get_tf_config(envvar='TF_CLUSTER'):
 
 def get_log_level():
     """If set on the polyaxonfile it will return the log level."""
-    cluster = os.getenv('POLYAXON_LOG_LEVEL', None)
-    return json.loads(cluster) if cluster else None
+    return os.getenv('POLYAXON_LOG_LEVEL', None)
 
 
 def get_api(version='v1'):
