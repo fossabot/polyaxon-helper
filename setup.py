@@ -18,7 +18,7 @@ class PyTest(TestCommand):
 
 
 setup(name='polyaxon-helper',
-      version='0.0.1',
+      version='0.0.2',
       description='A python helper library to report metrics and communicate with Polyaxon.',
       maintainer='Mourad Mourafiq',
       maintainer_email='mouradmourafiq@gmail.com',
