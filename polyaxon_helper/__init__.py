@@ -84,7 +84,7 @@ def get_tf_config(envvar='TF_CLUSTER'):
     }
 
     if envvar:
-        os.environ[envvar] = tf_config
+        os.environ[envvar] = json.dumps(tf_config)
 
     return tf_config
 
